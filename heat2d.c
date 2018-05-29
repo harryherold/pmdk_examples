@@ -12,8 +12,15 @@
 
 #define SYNC(is_pmem, args...) ((is_pmem) ? pmem_persist(args) : pmem_msync(args) )
 
-void printstate(int step, double time, double h, double* vec, int n, int m);
+static void print_help(const char** argv)
+{
+    fprintf(stderr, "Usage: %s <N> <M> <MAX STEPS> <OUT-FILE>\n", argv[0]);
+    fprintf(stderr, "<N> x <M> - Matrix size\n");
+    fprintf(stderr, "<MAX STEPS> - Maximum iteration steps\n");
+    fprintf(stderr, "<OUT-FILE> - filename for the output file\n");
+}
 
+void printstate(int step, double time, double h, double* vec, int n, int m);
 
 void
 compute(double * u, double * v, double * residual, int n, int m)
@@ -65,7 +72,7 @@ int main(int argc, const char** argv)
 
     if (argc < 5)
     {
-        printf("Not enough arguments given\n");
+        print_help(argv);
         return -1;
     }
 
